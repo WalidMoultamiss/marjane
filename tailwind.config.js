@@ -5,7 +5,16 @@ module.exports = {
   ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'mosaic': 'url("/mosaique.png")',
+        'logo': 'url("/icon.png")',
+      },
+      color:{
+        'primary': '#00bcd4',
+        'secondary': '#ff9800',
+      },
+    },
   },
   variants: {},
   plugins: [],

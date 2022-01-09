@@ -1,5 +1,6 @@
 import { Home } from './Home'
 import { Admin } from './Admin'
+import { AdminUsers } from './admin/AdminUsers'
 import { login } from './login'
 import { online } from './online'
 import { viewRes } from './viewRes'
@@ -25,7 +26,12 @@ let pages = [
   {
     page: Admin,
     path: "admin",
-    auth: true
+    auth: ["admin_general"]
+  },
+  {
+    page: AdminUsers,
+    path: "adminusers",
+    auth: ["admin_general"]
   },
   {
     page: login,

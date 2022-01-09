@@ -1,22 +1,17 @@
-
-
 export const Home = () => {
-
-    return (` 
-        <div class="bg-white pb-6 sm:pb-8 lg:pb-12 dark:bg-gray-900 pt-40 h-full ">
-            <div class="max-w-screen-2xl px-4 md:px-8 mx-auto opacity-90 ">
-                <section class="h-full flex justify-center items-center flex-1 flex-shrink-0 bg-gray-100 overflow-hidden shadow-lg rounded-lg relative py-16 md:py-20 xl:py-28">
-                <img src="https://images.unsplash.com/photo-1618004652321-13a63e576b80?auto=format&q=75&fit=crop&w=1500" loading="lazy" alt="Photo by Fakurian Design" class="w-full h-full object-cover object-center absolute inset-0" />
-                <div class="bg-red-900 mix-blend-multiply absolute inset-0"></div>
-                <div class="sm:max-w-xl flex flex-col items-center relative p-4">
-                    <p class="text-gray-200 text-lg sm:text-xl text-center mb-4 md:mb-8">You Finally Make The Step</p>
-                    <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-8 md:mb-12">Youcode the best School is here </h1>
-                    <div class="w-full flex flex-col sm:flex-row sm:justify-center gap-2.5">
-                    <button onclick="goTo('online')" class="inline-block bg-red-500 hover:bg-red-600 active:bg-red-700 focus-visible:ring ring-red-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">START NOW</button>
+  return `
+        <div class=" bg-gray-100 dark:bg-gray-900  h-full ">
+                <section class="h-full bg-blue-900 bg-mosaic bg-repeat flex flex-col justify-center items-center shadow-lg  py-16 md:py-20 xl:py-28">
+                    <div class="bg-logo bg-cover bg-center w-52 h-44 mb-10"></div>
+                    <h1 class="text-white text-4xl font-bold" >Marjane my admin</h1>
+                    <h3 class="text-white text-xl pt-4" >Choisir un portail</h3>
+                    <div class="w-full flex justify-center gap-5 p-5">
+                        <button onclick="goTo('admin')" class="w-44 h-32 rounded-md hover:bg-gray-50 focus:scale-95 transform hover:scale-105 transition-all bg-white text-2xl text-center">Portail Admin general</button>
+                        <button onclick="goTo('admin')" class="w-44 h-32 rounded-md hover:bg-gray-50 focus:scale-95 transform  hover:scale-105 transition-all bg-white text-2xl text-center">Portail Admin center</button>
+                        <button onclick="goTo('admin')" class="w-44 h-32 rounded-md hover:bg-gray-50 focus:scale-95 transform  hover:scale-105 transition-all bg-white text-2xl text-center">Portail Chef de rayon</button>
                     </div>
-                </div>
+                    <span class="text-white absolute bottom-2" >©2022 Marjane - <button>Tous droits réservés</button> - <button>Mentions légales</button> - <button>Données personnelles</button></span>
                 </section>
-            </div>
         </div>
-    `)
-}
+    `;
+};

@@ -1,4 +1,4 @@
-const db = "http://localhost:5000"
+const db = "http://localhost:8080"
 
 export const get = async (url, token) => {
     url = db + url
@@ -6,7 +6,7 @@ export const get = async (url, token) => {
         method: "GET",
         headers: {
             "accept": "application/json",
-            "Authorization": `Bearer ${token}`,
+            "Authorization": `bearer ${localStorage?.getItem("token")}`,
         },
     });
     return await response.json()
@@ -18,10 +18,13 @@ export const post = async (url, body) => {
         method: "POST",
         headers: {
             "Content-type": "application/json",
+            "Authorization": `bearer ${localStorage?.getItem("token")}`,
         },
         body: JSON.stringify(body)
     });
-    return await response.json()
+    let result = await response.json()
+    console.log(result);
+    return result
 };
 
 export const put = async (url, body) => {

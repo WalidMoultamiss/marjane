@@ -1,11 +1,12 @@
-import { download } from "../../helpers"
+import { download , get } from "../../helpers"
 
-export const UserDashboard = (users) => {
+export const UserDashboard = async () => {
 
-    window.downloadFile = (id) => {
-        const user = users.find(user => user.id == id)
-        download(user)
-    }
+   
+
+    let dataUsers = await get('/api/users/')
+    console.log('dataUsers', dataUsers);
+
 
     const List = (dataUsers) => {
         const colors = {
@@ -14,7 +15,6 @@ export const UserDashboard = (users) => {
             rejected: "bg-pink-100 text-pink-800",
             review: "bg-purple-100 text-purple-800",
         }
-
 
         window.checkUserAnswers = (id) => {
             let user = dataUsers.find(user => user.id == id)
@@ -98,28 +98,16 @@ export const UserDashboard = (users) => {
                                             ID #
                                         </th>
                                         <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            CIN
-                                        </th>
-                                        <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                             FULL NAME
                                         </th>
                                         <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                             EMAIL
                                         </th>
                                         <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            PHONE
+                                            ROLE
                                         </th>
                                         <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            BIRTHDAY
-                                        </th>
-                                        <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            Status
-                                        </th>
-                                        <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            check
-                                        </th>
-                                        <th class=" dark:text-white dark:bg-gray-700 px-5 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                            download
+                                            Actions
                                         </th>
                                     </tr>
                                 </thead>
@@ -129,7 +117,7 @@ export const UserDashboard = (users) => {
                             </table>
                         </div>
                     </div>
-                </div>        
+                </div>
     `);
 }
 
@@ -146,7 +134,7 @@ export const QuestionDashboard = (questions) => {
                 <td class=" dark:border-gray-300 dark:text-white dark:bg-gray-900 text-left px-5 py-5 border-b border-gray-200 bg-white text-sm leading-5 font-medium text-gray-900">
                     ${question.id}
                 </td>
-                <td class=" dark:border-gray-300 dark:text-white dark:bg-gray-900 text-left px-5 py-5 border-b border-gray-200 bg-white text-sm leading-5 font-medium text-gray-900">
+                <td class=" dark:border-gray-300 dark:text-primary dark:bg-gray-900 text-left px-5 py-5 border-b border-gray-200 bg-white text-sm leading-5 font-medium text-gray-900">
                     ${question.question}
                 </td>
                 <td class=" dark:border-gray-300 dark:text-white dark:bg-gray-900 text-left px-5 py-5 border-b border-gray-200 bg-white text-sm leading-5 font-medium text-gray-900">

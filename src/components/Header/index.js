@@ -32,7 +32,7 @@ export const header = (data) => {
     };
 
     window.isAdmin = () => {
-        return user.role === "admin" ? (`
+        return user.role === "admin_general" ? (`
                 <svg onclick="navigate('admin','admin')" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
                     stroke-linejoin="round" class="feather feather-settings
                         feather feather-moon p-2 leading-none border 
@@ -48,7 +48,7 @@ export const header = (data) => {
     }
 
     return `
-        <div class="header fixed top-0 z-50 w-full">
+        <!-- <div class="header fixed top-0 z-50 w-full">
             <nav id="nav" class="flex items-center justify-between flex-wrap dark:bg-red-900 bg-red-500 p-6">
                 <div onclick="navigate('link','/')" class="flex items-center flex-shrink-0 text-white mr-6 cursor-pointer">
                     <!-- <svg class="fill-current h-8 w-8 mr-2" width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"/></svg> -->
@@ -94,6 +94,6 @@ export const header = (data) => {
                             </div>
                         </div>
 
-        </div>
+        </div> -->
     `;
 };

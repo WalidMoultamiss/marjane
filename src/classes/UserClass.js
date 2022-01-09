@@ -6,8 +6,9 @@ export class UserClass {
     user
 
     getUsers = async () => {
-        const result = await get('/schema')
+        const result = await get('/api/users/')
         this.users = result
+        return result
     }
 
     //login
@@ -27,8 +28,20 @@ export class UserClass {
     }
 
     instription = async (data) => {
-        const response = await post("/schema", data);
-        this.user = response
+        // const response = await post("/schema", data);
+        // this.user = response
+        // return response
+    }
+
+    checkToken = async () => {
+        const response = await post("/api/users/token",{body:true})
+        return response
+    }
+
+    login = async (data) => {
+        const response = await post("/api/users/login", data);
+        console.log('data' , response);
+        this.user = {...response.user, token: response.token}
         return response
     }
 
