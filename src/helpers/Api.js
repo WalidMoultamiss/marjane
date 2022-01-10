@@ -12,6 +12,19 @@ export const get = async (url, token) => {
     return await response.json()
 };
 
+export const DELETE = async (url, body) => {
+    url = db + url
+    const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `bearer ${localStorage?.getItem("token")}`,
+        },
+        body: JSON.stringify(body),
+    });
+    return await response.json()
+};
+
 export const post = async (url, body) => {
     url = db + url
     const response = await fetch(url, {

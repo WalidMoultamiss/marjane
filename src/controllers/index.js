@@ -1,12 +1,20 @@
 import { back } from "../helpers";
 import { header } from "../components";
 import { ref } from "../Mout";
-import { goTo, router, UserObj, QuestionObj, render } from "../helpers";
+import { goTo, router, UserObj, PromotionObj, render } from "../helpers";
 
 class Controller {
   constructor() {
     window._ = this;
     router();
+
+    
+window.$ = (className) => {
+    return document.querySelector(className);
+  };
+  window.$$ = (className) => {
+    return document.querySelectorAll(className);
+  };
 
     //Our Global Router Link
     window.goTo = goTo;
@@ -23,64 +31,28 @@ class Controller {
 
     //Handle routing system on load
     goTo(location.pathname);
-
-    // QuestionObj.getQuestions()
   }
 
   loginOnload = async () => {
     console.log("first load", location.pathname);
     let res = await this.isAuth()
     if (!res.status == 1) this.logout();
-    console.log(location.pathname.split("/").join(""));
-    this.handlePage(location.pathname.split("/").join(""));
+    //get query string
+    
+    this.handlePage(location.pathname);
   };
   handlePage = async (path) => {
-    let res = ref.find((elm) => elm.path == path);
-    console.log("res", res);
-    res ? res.func(true) : goTo(`/${path}`);
+    let res = ref.find((elm) => elm.path == path.split("/").join(""));
+    console.log('res',res);
+    let query = location.search;
+    res ? res.func(query) : goTo(`/${path.split("/").join("")}`);
   };
 
-  viewResStat = () => {
-    return UserObj.user;
-  };
 
   isAuth = () => {
     return UserObj.checkToken();
   };
 
-  Questions = () => {
-    return QuestionObj.questions;
-  };
-
-  validateQuestion = (question) => {
-    return QuestionObj.validateQuestion(question);
-  };
-  getResultTestOnline = () => {
-    return QuestionObj.getResultTestOnline();
-  };
-
-  setQuestion = async (question) => {
-    return QuestionObj.setQuestion(question);
-  };
-
-  updateUserStatus = async (id, status) => {
-    return await UserObj.updateStatus(id, status);
-  };
-
-  setStep = (question) => {
-    UserObj.user.testOnline.push(question);
-  };
-
-  setSeriousGame = (answer) => {
-    return QuestionObj.setSeriousGame(answer);
-  };
-
-  setMotivation = (answer) => {
-    return QuestionObj.setMotivation(answer);
-  };
-  setTestTechnique = (answer) => {
-    return QuestionObj.setTestTechnique(answer);
-  };
 
   addUser = async (UserData) => {
     let user = await UserObj.instription(UserData);

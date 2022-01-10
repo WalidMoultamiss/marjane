@@ -19,23 +19,6 @@ export const inscription = () => {
     }
   };
 
-  //check IF EMAIL is not register
-  window.checkEmail = async () => {
-    if (!checkAge()) {
-      document.querySelector("#popup_age").style.display = "flex";
-    } else {
-      const email = document.querySelector("#email");
-      const emailValue = email.value;
-      const response = await get("/schema?email=" + emailValue);
-
-      if (response.length > 0) {
-        document.querySelector("#inscr-popup").style.display = "flex";
-        console.log("email exist");
-      } else {
-        addUser();
-      }
-    }
-  };
 
   //fetch add user
   const addUser = async () => {
@@ -67,7 +50,6 @@ export const inscription = () => {
           script: "",
         },
         status: "pending",
-        testOnline: [],
       };
       const response = await _.addUser(userData);
       email.value = "";
@@ -134,7 +116,6 @@ export const inscription = () => {
                 </div>
                 </div>
             </div>
-            ${popup("user already registered", "inscr-popup")}
             ${popup("user created", "popup_submited")}
             ${popup("Please fill out the fields", "popup_error")}
             ${popup("Age not accepted", "popup_age")}

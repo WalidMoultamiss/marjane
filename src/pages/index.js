@@ -1,16 +1,10 @@
 import { Home } from './Home'
 import { Admin } from './Admin'
 import { AdminUsers } from './admin/AdminUsers'
+import { AdminPromotions } from './admin/AdminPromotions'
+import { logs } from './admin/logs'
 import { login } from './login'
-import { online } from './online'
-import { viewRes } from './viewRes'
-import { seriousGame } from './seriousGame'
-import { motivation } from './motivation'
-import { register } from './register'
-import { technique } from './technique'
-import { C } from './C'
-import { js } from './js'
-import { python } from './python'
+import {createusingtoken} from './createusingtoken'
 
 
 
@@ -18,64 +12,35 @@ let pages = [
   {
     page: Home,
     path: "/"
-  }, ,
-  {
-    page: register,
-    path: "register"
   },
   {
     page: Admin,
     path: "admin",
     auth: ["admin_general"]
   },
+
   {
     page: AdminUsers,
     path: "adminusers",
     auth: ["admin_general"]
   },
   {
+    page: AdminPromotions,
+    path: "adminpromotions",
+    auth: ["admin_general"]
+  },
+  {
+    page: logs,
+    path: "logs",
+    auth: ["admin_general"]
+  },
+  {
+    page: createusingtoken,
+    path: "createusingtoken"
+  },
+  {
     page: login,
     path: "login"
-  },
-  {
-    page: online,
-    path: "online",
-    auth: true
-  },
-  {
-    page: viewRes,
-    path: "viewRes",
-    auth: true
-  },
-  {
-    page: seriousGame,
-    path: "seriousgame",
-    auth: true
-  },
-  {
-    page: motivation,
-    path: "motivation",
-    auth: true
-  },
-  {
-    page: technique,
-    path: "technique",
-    auth: true
-  },
-  {
-    page: C,
-    path: "c",
-    auth: true
-  },
-  {
-    page: js,
-    path: "js",
-    auth: true
-  },
-  {
-    page: python,
-    path: "python",
-    auth: true
   },
 ]
 

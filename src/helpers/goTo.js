@@ -12,13 +12,19 @@ export const goTo = async (path, data = []) => {
     let checker = path === "/" ? path : path.replace("/", "");
     return page?.path.toLowerCase() === checker;
   });
-  if (!page?.auth?.includes(auth.data.role)) {
+  if (page?.auth?.length) {
+    if (page?.auth?.includes(auth.data.role)) {
+      console.log('yeaa');
+      router();
+      render(page, data
+      );
+    }else{
+      router();
+    render(authPage);
+    }
+  } else {
     history.pushState({ usreid: 3 }, path, "/?page=" + page.path);
     router();
-    render(authPage, {
-      error: { status: true, message: "what are you doing" },
-    });
-  } else {
     render(page, data);
   }
 };

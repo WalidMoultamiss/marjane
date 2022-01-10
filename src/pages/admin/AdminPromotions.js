@@ -1,90 +1,14 @@
-
 import { DELETE, post } from "../../helpers";
-
-export const AdminUsers = ({ users, questions }) => {
-  //   window.swicthMe = (newState) => {
-  //     console.log(newState);
-  //     AdminPage(newState);
-  //   };
+//import chartjs
+import { Chart } from "chart.js";
+export const AdminPromotions = ({ promotions }) => {
   window.toggle = (className) => {
     document.querySelector(className).classList.toggle("hidden");
   };
 
-  window.addUser = async () => {
-    let user = {
-      fullName: document.querySelector("#fullName").value,
-      email: document.querySelector("#email").value,
-      role: document.querySelector("#role").value,
-    };
-
-    const validateEmail = (email) => {
-      var re = /\S+@\S+\.\S+/;
-      return re.test(email);
-    };
-
-    if (!validateEmail(user.email)) {
-      $("#email").classList.add("border-red-500");
-      $("#error_email").classList.remove("hidden");
-    } else {
-      $("#email").classList.remove("border-red-500");
-      $("#error_email").classList.add("hidden");
-    }
-
-    if (user.fullName.length < 3) {
-      $("#fullName").classList.add("border-red-500");
-      $("#error_fullName").classList.remove("hidden");
-    } else {
-      $("#fullName").classList.remove("border-red-500");
-      $("#error_fullName").classList.add("hidden");
-    }
-
-    if (user.role.length < 3) {
-      $("#role").classList.add("border-red-500");
-      $("#error_role").classList.remove("hidden");
-    } else {
-      $("#role").classList.remove("border-red-500");
-      $("#error_role").classList.add("hidden");
-    }
-
-    if (
-      validateEmail(user.email) &&
-      user.fullName.length > 2 &&
-      user.role.length > 2
-    ) {
-        $('.spinner-border').classList.toggle('hidden')
-      const result = await post("/api/users/createToken", user);
-      if (result.success == 1) {
-        $("#fullName").value = "";
-        $("#email").value = "";
-        $("#role").value = "";
-        $("#error_email").classList.add("hidden");
-        $("#error_fullName").classList.add("hidden");
-        $("#error_role").classList.add("hidden");
-        $("#email").classList.remove("border-red-500");
-        $("#fullName").classList.remove("border-red-500");
-        $("#role").classList.remove("border-red-500");
-        $("#success_add").classList.remove("hidden");
-        $('.spinner-border').classList.toggle('hidden')
-        setTimeout(() => {
-          $("#success_add").classList.add("hidden");
-        }, 3000);
-        console.log(result);
-      }
-    }
-
-    console.log(user);
-  };
-
-  window.popupDelete = (popupDeleteSwitcher, e, user) => {
+  window.popupDelete = (popupDeleteSwitcher, e, promotion) => {
     let view = popupDeleteSwitcher;
     e.parentNode.parentElement.classList.toggle("bg-red-300");
-
-    window.deleteUser = async () => {
-      e.parentNode.parentElement.remove();
-      let res = await DELETE("/api/users/", { id: user });
-      console.log(res);
-      document.querySelector(".popupUser").remove();
-    };
 
     window.closePopupUser = () => {
       e.parentNode.parentElement.classList.remove("bg-red-300");
@@ -108,7 +32,7 @@ export const AdminUsers = ({ users, questions }) => {
         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
         </svg>
                                 <h2 class="text-xl font-bold py-4 ">Are you sure?</h3>
-                                <p class="text-sm text-gray-500 px-8">Do you really want to delete this account?
+                                <p class="text-sm text-gray-500 px-8">Do you really want to delete this product ?
                         This process cannot be undone</p>
                 </div>
                 <!--footer-->
@@ -125,25 +49,27 @@ export const AdminUsers = ({ users, questions }) => {
     document.body.insertAdjacentHTML("beforeend", html);
   };
 
-  const viewUsers = () => {
+  const viewPromotions = () => {
     let html = [];
-    console.log("users", users);
-    users?.splice(1).forEach((user, index) => {
+    promotions?.forEach((promotion, index) => {
       html.push(`
         <tr class="rowUser">
-            <td class="py-4" >
-                <input type="checkbox"  class="checkbox checkbox-primary">
-            </td>
-            <td class="py-4" >${user.fullName}</td>
-            <td class="py-4" >${user.email}</td>
-            <td class="py-4" >${user.role}</td>
-            <td class="py-4" >${user.created_at
+            <td class="py-4" >${index + 1}</td>
+            <td class="py-4" >${promotion.product_name}</td>
+            <td class="py-4" >${promotion.price} DH</td>
+            <td class="py-4" >${promotion.remise}%</td>
+            <td class="py-4" >${promotion.fidelity} DH</td>
+            <td class="py-4" >${promotion.description}</td>
+            <td class="py-4" >${promotion.category}</td>
+            <td class="py-4" >${promotion.status}</td>
+            <td class="py-4" >${promotion.city}</td>
+            <td class="py-4" >${promotion.created_at
               .split(".000Z")[0]
               .split("T")
               .join("  ")}</td>
             <td class="py-4" >
                 <button class="btn btn-success" onclick="popupDelete(true , this ,${
-                  user.id
+                  promotion.id
                 })">
                     <i class="fa fa-trash"></i>
                 </button>
@@ -270,12 +196,12 @@ export const AdminUsers = ({ users, questions }) => {
         </div>
         <div class="body mt-24">
             <div class="head p-10 flex justify-between">
-                <h1 class="text-4xl text-purple-900 font-extrabold">Users</h1>
+                <h1 class="text-4xl text-purple-900 font-extrabold">Promotions</h1>
                 <div class="buttons flex gap-4">
-                    <button onclick="toggle('.addUser')" class="p-4 border-blue-600 bg-blue-600 text-white border-2 rounded-md">
+                    <button onclick="" class="p-4 border-blue-600 bg-blue-600 text-white border-2 rounded-md">
                     <i class="fa fa-plus"></i>
                     &nbsp;
-                    Add user</button>
+                    Add promotion</button>
                 </div>
             </div>
             <section class="antialiased text-gray-600 h-screen px-4">
@@ -283,7 +209,7 @@ export const AdminUsers = ({ users, questions }) => {
                     <!-- Table -->
                     <div class="w-full  mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                         <header class="px-5 py-4 border-b border-gray-100">
-                            <h2 class="font-semibold text-gray-800">Users</h2>
+                            <h2 class="font-semibold text-gray-800">Promotions</h2>
                         </header>
                         <div class="p-3">
                             <div class="overflow-x-auto">
@@ -294,24 +220,39 @@ export const AdminUsers = ({ users, questions }) => {
                                                 <div class="font-semibold text-center">N</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Full name</div>
+                                                <div class="font-semibold text-center">product name</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Email</div>
+                                                <div class="font-semibold text-center">price</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Role</div>
+                                                <div class="font-semibold text-center">remise</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Created at</div>
+                                                <div class="font-semibold text-center">fidelity</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">Action</div>
+                                                <div class="font-semibold text-center">description</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">category</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">status</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">city</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">created at</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">Actions</div>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-sm divide-y divide-gray-100">
-                                        ${viewUsers()}
+                                        ${viewPromotions()}
                                     </tbody>
                                 </table>
                             </div>
@@ -343,7 +284,6 @@ export const AdminUsers = ({ users, questions }) => {
                             </div>
                         </div>
                         <button onclick="addUser()" class="mt-4 w-full flex items-center justify-center gap-3 bg-gradient-to-tr from-blue-600 to-indigo-600 text-indigo-100 py-2 rounded-md text-lg tracking-wide">
-                            
                         <div class=" spinner-border animate-spin inline-block hidden w-4 h-4 border-1 border-red-400 rounded-full">
                             <span class="text-2xl font-bold">.</span>
                         </div>
@@ -351,8 +291,10 @@ export const AdminUsers = ({ users, questions }) => {
                         <p id="success_add" class="text-green-500 text-lg hidden italic">Sussess</p>
                         </div>
                     </div>
+                    
                 </div>
             </section>
         </div>
+        
         `;
 };

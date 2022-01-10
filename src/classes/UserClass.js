@@ -11,6 +11,11 @@ export class UserClass {
         return result
     }
 
+    getLogs = async () => {
+        const result = await get('/api/logs/')
+        return result
+    }
+
     //login
     getUserByEmail = async (email) => {
         const result = await get(`/schema?email=${email}`)

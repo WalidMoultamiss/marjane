@@ -1,4 +1,4 @@
-import { UserInit, QuestionInit } from '../classes'
+import { UserInit, PromotionInit } from '../classes'
 
 export const UserObj = UserInit()
-export const QuestionObj = QuestionInit()
+export const PromotionObj = PromotionInit()

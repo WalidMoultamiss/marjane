@@ -10,11 +10,6 @@ export const download = ((User) => {
         window.URL.revokeObjectURL(url);
     }
 
-    const online = User.testOnline.reduce((output, qst, idx) => {
-        return output += `
-            ${idx + 1} : USER ANSWER ${qst.answer} AND THE CORRECT ANSWER ${qst.correct}
-        `
-    }, '')
 
     const motivation = User.motivation.reduce((output, answer, idx) => {
         return output += `

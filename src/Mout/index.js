@@ -1,18 +1,10 @@
-import { UserObj, QuestionObj } from "../helpers"
+import { UserObj, PromotionObj, goTo } from "../helpers"
 
-export const TestOnline = async () => {
-    await QuestionObj.getQuestions()
-    goTo('/online')
-};
 
 export const login = async (data) => {
     let res = await UserObj.login(data)
 };
 
-export const viewRes = async () => {
-    await QuestionObj.getQuestions()
-    goTo('/viewres')
-};
 
 export const AdminPage = async () => {
     let user = await UserObj.checkToken()
@@ -25,23 +17,46 @@ export const AdminUsers = async ()=>{
     goTo('/adminusers',{ users : users.data})
 }
 
+export const logs = async ()=>{
+    let logs = await UserObj.getLogs()
+    console.log('logs',logs);
+    goTo('/logs',{ logs : logs.data})
+}
+export const adminpromotions = async ()=>{
+    let promotions = await PromotionObj.getPromotions()
+    console.log('promotions',promotions);
+    goTo('/adminpromotions',{ promotions : promotions.data})
+}
+
+
+export const createusingtoken = async ()=>{
+    goTo('/createusingtoken',{token:location.search})
+}
+
+
+
 
 
 export const ref = [
-    {
-        path: "online",
-        func: TestOnline
-    },
     {
         path: "admin",
         func: AdminPage
     },
     {
-        path: "viewRes",
-        func: viewRes
-    },
-    {
         path: "adminusers",
         func: AdminUsers
-    }
+    },
+    {
+        path:"createusingtoken",
+        func : createusingtoken
+    },
+    {
+        path: "logs",
+        func: logs
+    },
+    {
+        path: "adminpromotions",
+        func: adminpromotions
+    },
+
 ]

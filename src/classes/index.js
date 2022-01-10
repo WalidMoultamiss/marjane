@@ -1,11 +1,11 @@
 import UserClass  from "./UserClass"
-import QuestionClass  from "./QuestionClass"
+import PromotionClass  from "./PromotionClass"
 
 
 export const UserInit = () => {
     return new UserClass()
 }
 
-export const QuestionInit = () => {
-    return new QuestionClass()
+export const PromotionInit = () => {
+    return new PromotionClass()
 }
