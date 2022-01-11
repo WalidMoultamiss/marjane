@@ -6,6 +6,8 @@ export const goTo = async (path, data = []) => {
   const authPage = pages.find((page) => page?.path === "login");
   //check from token if he is still auth
   let auth = await _.isAuth();
+  //if he is auth
+  if (auth.success == 1) {
   history.pushState({ usreid: 3 }, path, "/?page=" + path);
   router();
   let page = pages.find((page) => {
@@ -13,7 +15,7 @@ export const goTo = async (path, data = []) => {
     return page?.path.toLowerCase() === checker;
   });
   if (page?.auth?.length) {
-    if (page?.auth?.includes(auth.data.role)) {
+    if (page?.auth?.includes(auth.message.user.role)) {
       console.log('yeaa');
       router();
       render(page, data
@@ -27,4 +29,9 @@ export const goTo = async (path, data = []) => {
     router();
     render(page, data);
   }
+} else {
+  history.pushState({ usreid: 3 }, path, "/?page=" + path);
+  router();
+  render(authPage);
+}
 };

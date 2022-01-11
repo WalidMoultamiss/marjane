@@ -7,8 +7,9 @@ export const login = async (data) => {
 
 
 export const AdminPage = async () => {
+    let logs = await UserObj.getLogs()
     let user = await UserObj.checkToken()
-    goTo('/admin',{ user : user.data})
+    goTo('/admin',{ user : user.data , logs : logs.data})
 };
 
 export const AdminUsers = async ()=>{

@@ -36,6 +36,7 @@ window.$ = (className) => {
   loginOnload = async () => {
     console.log("first load", location.pathname);
     let res = await this.isAuth()
+    console.log('resqu' , res);
     if (!res.status == 1) this.logout();
     //get query string
     
@@ -67,7 +68,7 @@ window.$ = (className) => {
     this.updateHeader();
     localStorage.removeItem("email");
     localStorage.removeItem("password");
-    goTo("/");
+    goTo("/login");
   };
 
   //login

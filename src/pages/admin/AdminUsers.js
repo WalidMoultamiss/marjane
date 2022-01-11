@@ -1,5 +1,5 @@
-
 import { DELETE, post } from "../../helpers";
+import { leftBar } from "../../components";
 
 export const AdminUsers = ({ users, questions }) => {
   //   window.swicthMe = (newState) => {
@@ -51,7 +51,7 @@ export const AdminUsers = ({ users, questions }) => {
       user.fullName.length > 2 &&
       user.role.length > 2
     ) {
-        $('.spinner-border').classList.toggle('hidden')
+      $(".spinner-border").classList.toggle("hidden");
       const result = await post("/api/users/createToken", user);
       if (result.success == 1) {
         $("#fullName").value = "";
@@ -64,7 +64,7 @@ export const AdminUsers = ({ users, questions }) => {
         $("#fullName").classList.remove("border-red-500");
         $("#role").classList.remove("border-red-500");
         $("#success_add").classList.remove("hidden");
-        $('.spinner-border').classList.toggle('hidden')
+        $(".spinner-border").classList.toggle("hidden");
         setTimeout(() => {
           $("#success_add").classList.add("hidden");
         }, 3000);
@@ -142,14 +142,26 @@ export const AdminUsers = ({ users, questions }) => {
               .split("T")
               .join("  ")}</td>
             <td class="py-4" >
-                <button class="btn btn-success" onclick="popupDelete(true , this ,${
+                <button class="bg-red-500 rounded " onclick="popupDelete(true , this ,${
                   user.id
                 })">
-                    <i class="fa fa-trash"></i>
+                    <lord-icon
+                    src="https://cdn.lordicon.com/gsqxdxog.json"
+                    trigger="hover"
+                    class="w-12 h-12 p-2"
+                    colors="primary:#ffffff,secondary:#ffffff"
+                    >
+                    </lord-icon>
                 </button>
                 &nbsp;
-                <button class="btn btn-success" onclick="">
-                    <i class="fa fa-pen"></i>
+                <button class=" bg-blue-500 rounded" onclick="">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/wloilxuq.json"
+                        trigger="hover"
+                        class="w-12 h-12 p-2 "
+                        colors="primary:#ffffff,secondary:#ffffff"
+                        >
+                    </lord-icon>
                 </button>
             </td>
         </tr>
@@ -160,49 +172,7 @@ export const AdminUsers = ({ users, questions }) => {
 
   return `
     <div style="min-width: 188px;" class="leftbar fixed left-0 top-0 z-10 h-full w-1/12 bg-blue-800 bg-mosaic p-5">
-        <div class="logo mb-10">
-            <h1 class="text-white font-extrabold text-3xl cursor-pointer" onclick="goTo('admin')">Marjane</h1>
-        </div>
-        <div class="menu h-full flex flex-col items-left justify-between">
-            <ul class=" flex flex-col justify-start gap-5">
-                <li class="w-full" >
-                    <a class="text-white text-left" href="dashboard.html">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <h1 class="text-white" onclick="viewTable('users')">
-                        <i class="fas fa-user"></i>
-                        <span>Users</span>
-                    </h1>
-                </li>
-                <li>
-                    <h1 class="text-white" onclick="viewTable('List')">
-                        <i class="fas fa-list"></i>
-                        <span>ListMarjane</span>
-                    </h1>
-                </li>
-                <li>
-                    <a class="text-white" href="">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Promotions</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="text-white" href="">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <div class="absolute left-12 bottom-5">
-                    <button class="p-4 text-blue-500 bg-white rounded-md" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i>
-                        logout
-                    </button>
-                </div>
-            </ul>
-        </div>
+        ${leftBar()}
     </div>
     <div style="padding: 0 0 0 188px;" class="dashboard w-full">
         <div style="width: calc(100vw - 188px);" class="navbar fixed top-0 flex justify-between items-center h-24 p-4 bg-blue-500">
