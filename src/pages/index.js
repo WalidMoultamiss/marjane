@@ -2,6 +2,7 @@ import { Home } from './Home'
 import { Admin } from './Admin'
 import { AdminUsers } from './admin/AdminUsers'
 import { AdminPromotions } from './admin/AdminPromotions'
+import { AdminProducts } from './admin/AdminProducts'
 import { logs } from './admin/logs'
 import { login } from './login'
 import {createusingtoken} from './createusingtoken'
@@ -16,6 +17,11 @@ let pages = [
   {
     page: Admin,
     path: "admin",
+    auth: ["admin_general"]
+  },
+  {
+    page: AdminProducts,
+    path: "adminproducts",
     auth: ["admin_general"]
   },
 

@@ -1,3 +1,6 @@
+import { leftBar } from "../../components";
+
+
 export const logs = ({ logs }) => {
   window.toggle = (newState) => {
     document.querySelector(newState).classList.toggle("hidden");
@@ -21,51 +24,7 @@ export const logs = ({ logs }) => {
   };
 
   return `
-    <div style="min-width: 188px;" class="leftbar fixed z-50left-0 top-0 z-100 h-full w-1/12 bg-blue-800 bg-mosaic p-5">
-        <div class="logo mb-10">
-            <h1 class="text-white font-extrabold text-3xl cursor-pointer" onclick="goTo('admin')">Marjane</h1>
-        </div>
-        <div class="menu h-full flex flex-col items-left justify-between">
-            <ul class=" flex flex-col justify-start gap-5">
-                <li class="w-full" >
-                    <a class="text-white text-left" href="dashboard.html">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <h1 class="text-white" onclick="viewTable('users')">
-                        <i class="fas fa-user"></i>
-                        <span>Users</span>
-                    </h1>
-                </li>
-                <li>
-                    <h1 class="text-white" onclick="viewTable('List')">
-                        <i class="fas fa-list"></i>
-                        <span>ListMarjane</span>
-                    </h1>
-                </li>
-                <li>
-                    <a class="text-white" href="">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>Promotions</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="text-white" href="">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <div class="absolute left-12 bottom-5">
-                    <button class="p-4 text-blue-500 bg-white rounded-md" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i>
-                        logout
-                    </button>
-                </div>
-            </ul>
-        </div>
-    </div>
+    ${leftBar()}
     <div style="padding: 0 0 0 188px;" class="dashboard w-full">
         <div style="width: calc(100vw - 188px);" class="navbar fixed z-50 top-0 flex justify-between items-center h-24 p-4 bg-blue-500">
             <div class="search  w-3/12">

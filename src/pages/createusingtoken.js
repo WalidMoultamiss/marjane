@@ -8,10 +8,8 @@ export const createusingtoken = (data) => {
       token: data.token.split('=')[1],
     };
 
-    console.log("body", body);
     if(password.length > 3){
         let res = await post("/api/users/createUsingToken", body);
-        console.log("res", res);
         if(res.success == 1) goTo('login')
     }
   };

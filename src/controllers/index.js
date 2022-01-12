@@ -36,15 +36,13 @@ window.$ = (className) => {
   loginOnload = async () => {
     console.log("first load", location.pathname);
     let res = await this.isAuth()
-    console.log('resqu' , res);
     if (!res.status == 1) this.logout();
     //get query string
     
     this.handlePage(location.pathname);
   };
-  handlePage = async (path) => {
+  handlePage = async (path , param) => {
     let res = ref.find((elm) => elm.path == path.split("/").join(""));
-    console.log('res',res);
     let query = location.search;
     res ? res.func(query) : goTo(`/${path.split("/").join("")}`);
   };

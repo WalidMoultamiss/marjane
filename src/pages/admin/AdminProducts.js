@@ -3,18 +3,18 @@ import { DELETE, post } from "../../helpers";
 import { Chart } from "chart.js";
 import { leftBar } from "../../components";
 
-export const AdminPromotions = ({ promotions }) => {
+export const AdminProducts = ({ products, params }) => {
   window.toggle = (className) => {
-    document.querySelector(className).classList.toggle("hidden");
+    $(className).classList.toggle("hidden");
   };
-
+  console.log("params", params);
   window.popupDelete = (popupDeleteSwitcher, e, promotion) => {
     let view = popupDeleteSwitcher;
     e.parentNode.parentElement.classList.toggle("bg-red-300");
 
     window.closePopupUser = () => {
       e.parentNode.parentElement.classList.remove("bg-red-300");
-      document.querySelector(".popupUser").remove();
+      $(".popupUser").remove();
     };
 
     let html = `
@@ -51,28 +51,112 @@ export const AdminPromotions = ({ promotions }) => {
     document.body.insertAdjacentHTML("beforeend", html);
   };
 
-  const viewPromotions = () => {
+  window.startPromotion = (className) => {
+    $("#img-modal-" + className).classList.toggle("h-24");
+    $("#createPromotion-btn-" + className).classList.toggle("hidden");
+    $("#validate-btn-" + className).classList.toggle("hidden");
+    $("#content-modal-" + className).classList.toggle("hidden");
+    $("#form-product-" + className).classList.toggle("hidden");
+  };
+  window.endPromotion = (className) => {
+    $("#img-modal-" + className).classList.remove("h-24");
+    $("#createPromotion-btn-" + className).classList.remove("hidden");
+    $("#validate-btn-" + className).classList.add("hidden");
+    $("#content-modal-" + className).classList.remove("hidden");
+    $("#form-product-" + className).classList.add("hidden");
+  };
+
+  const imageModal =  (product) => {
+    const createPromotion = async () => {
+        if($("#remise-product-" + product.id).value != ''){
+
+            const res = await post("/api/promotions/", {product_id:product.id , remise : $('#remise-product-'+product.id).value });
+            if(res.success == 1){
+                $('#my-modal-'+product.id).remove();
+                _.handlePage('adminproducts')
+            }
+        }else{
+            $("#remise-product-" + product.id).classList.add("input-error");
+            $("#remise-product-" + product.id).focus();
+        }
+
+    }
+
+    let html = `
+        <div id="my-modal-${product.id}" class="modal">
+            <div class="modal-box p-10 pb-5">
+                <div class="w-full flex justify-center">
+                    <img id="img-modal-${product.id}" src="${product?.img}" alt="">
+                </div>
+                <div id="content-modal-${product.id}">
+                    <p class="text-lg font-bold">${product?.name}</p>
+                    <p>${product?.description}</p>
+                </div>
+                <div id="form-product-${product.id}" class="paper hidden">
+                    <div class="p-3 card bg-base-200">
+                        <span class="text-xl font-bold">${product.name}</span>
+                    <div class="form-control">
+                        <label class="label">
+                            <span class="label-text">Insert remise</span>
+                        </label>
+                        <input placeholder="remise %" min="1" max="${product.category_name == 'electronique' ? '10' : '50'}" id="remise-product-${product.id}" class="input input-primary input-bordered" type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-action">
+                    <a onclick="endPromotion('${product.id}')" href="#" class="btn">Close</a>
+                    <button onclick="startPromotion('${product.id}')" id="createPromotion-btn-${product.id}" class=" btn btn-primary">Create promotion</button>
+                    <button  id="validate-btn-${product.id}" class="hidden btn-validate btn btn-primary">Validate</button>
+                </div>
+            </div>
+        </div>
+    `;
+    console.log(product);
+    document.body.insertAdjacentHTML("beforeend", html);
+
+    $('#validate-btn-' + product.id).addEventListener('click',function () {
+        createPromotion()
+    });
+  };
+
+  const viewProducts = () => {
     let html = [];
-    promotions?.forEach((promotion, index) => {
+    products?.forEach((product, index) => {
       html.push(`
         <tr class="rowUser">
             <td class="py-4" >${index + 1}</td>
-            <td class="py-4" >${promotion.product_name}</td>
-            <td class="py-4" >${promotion.price} DH</td>
-            <td class="py-4" >${promotion.remise}%</td>
-            <td class="py-4" >${promotion.fidelity} DH</td>
-            <td class="py-4" >${promotion.description}</td>
-            <td class="py-4" >${promotion.category}</td>
-            <td class="py-4" >${promotion.status}</td>
-            <td class="py-4" >${promotion.city}</td>
-            <td class="py-4" >${promotion.created_at
+            <td class="py-4 flex justify-center "  >
+                <a href="#my-modal-${
+                  product.id
+                }" class="text-gray-600 hover:text-gray-800">
+                <img class="h-10 w-10 mask mask-squircle" onclick="()=>${imageModal(
+                  product
+                )}" src="${product.img}" alt="Neil image">
+            </td>
+            <td class="py-4" >${product.name}</td>
+            <td class="py-4" >${product.price} DH</td>
+            <td class="py-4" >${product.description}</td>
+            <td class="py-4" >${product.category_name}</td>
+            <td class="py-4" >${product.city}</td>
+            <td class="py-4" >${product.created_at
               .split(".000Z")[0]
               .split("T")
               .join("  ")}</td>
-                <td class="py-4" >
-                <button class="bg-red-500 rounded " onclick="popupDelete(true , this ,${
-                  promotion.id
-                })">
+                <td class="py-4 flex items-center" >
+                <a href="#my-modal-${
+                  product.id
+                }" class=" bg-green-600 w-12 min-h-12  mr-2 rounded" onclick="">
+                    <lord-icon
+                    src="https://cdn.lordicon.com/tyounuzx.json"
+                    trigger="hover"
+                    class="w-12 h-12 p-2"
+                    colors="primary:#ffffff,secondary:#ffffff"
+                    >
+                </lord-icon>
+                    </a>
+                    <button class="bg-red-500 rounded " onclick="popupDelete(true , this ,${
+                        product.id
+                    })">
                     <lord-icon
                     src="https://cdn.lordicon.com/gsqxdxog.json"
                     trigger="hover"
@@ -119,7 +203,6 @@ export const AdminPromotions = ({ promotions }) => {
                         </path>
                     </svg>
                 </button>
-
 
                 <!-- Settings button -->
                 <button
@@ -168,12 +251,12 @@ export const AdminPromotions = ({ promotions }) => {
         </div>
         <div class="body mt-24">
             <div class="head p-10 flex justify-between">
-                <h1 class="text-4xl text-purple-900 font-extrabold">Promotions</h1>
+                <h1 class="text-4xl text-purple-900 font-extrabold">Products</h1>
                 <div class="buttons flex gap-4">
-                    <button onclick="_.handlePage('adminproducts')" class="p-4 border-blue-600 bg-blue-600 text-white border-2 rounded-md">
+                    <button href="#my-modal" onclick="" class="p-4 border-blue-600 bg-blue-600 text-white border-2 rounded-md">
                     <i class="fa fa-plus"></i>
                     &nbsp;
-                    Add promotion</button>
+                    Add Product</button>
                 </div>
             </div>
             <section class="antialiased text-gray-600 h-screen px-4">
@@ -181,7 +264,7 @@ export const AdminPromotions = ({ promotions }) => {
                     <!-- Table -->
                     <div class="w-full  mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                         <header class="px-5 py-4 border-b border-gray-100">
-                            <h2 class="font-semibold text-gray-800">Promotions</h2>
+                            <h2 class="font-semibold text-gray-800">Products</h2>
                         </header>
                         <div class="p-3">
                             <div class="overflow-x-auto">
@@ -192,25 +275,19 @@ export const AdminPromotions = ({ promotions }) => {
                                                 <div class="font-semibold text-center">N</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
+                                                <div class="font-semibold text-center">image</div>
+                                            </th>
+                                            <th class="p-2 whitespace-nowrap">
                                                 <div class="font-semibold text-center">product name</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
                                                 <div class="font-semibold text-center">price</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">remise</div>
-                                            </th>
-                                            <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">fidelity</div>
-                                            </th>
-                                            <th class="p-2 whitespace-nowrap">
                                                 <div class="font-semibold text-center">description</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
                                                 <div class="font-semibold text-center">category</div>
-                                            </th>
-                                            <th class="p-2 whitespace-nowrap">
-                                                <div class="font-semibold text-center">status</div>
                                             </th>
                                             <th class="p-2 whitespace-nowrap">
                                                 <div class="font-semibold text-center">city</div>
@@ -224,7 +301,7 @@ export const AdminPromotions = ({ promotions }) => {
                                         </tr>
                                     </thead>
                                     <tbody class="text-sm divide-y divide-gray-100">
-                                        ${viewPromotions()}
+                                        ${viewProducts()}
                                     </tbody>
                                 </table>
                             </div>
@@ -263,7 +340,6 @@ export const AdminPromotions = ({ promotions }) => {
                         <p id="success_add" class="text-green-500 text-lg hidden italic">Sussess</p>
                         </div>
                     </div>
-                    
                 </div>
             </section>
         </div>

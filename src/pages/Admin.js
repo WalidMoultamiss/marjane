@@ -13,7 +13,6 @@ export const Admin = ({ user, logs }) => {
     document.querySelector(newState).classList.toggle("hidden");
   };
 
- console.log('QDQSDQS LOGS',logs);
 
 
   const Options = [
@@ -35,7 +34,7 @@ export const Admin = ({ user, logs }) => {
     },
     {
         text: "Manage products",
-        path: "",
+        path: "adminproducts",
     }
   ];
 
